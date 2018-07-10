@@ -2,7 +2,7 @@ package fr.croustibat.javaquarium.util;
 
 import java.util.ArrayList;
 
-public class Fish extends Living {
+public abstract class Fish extends Living {
     private String name;
     private char gender;
     private int size;
@@ -11,6 +11,18 @@ public class Fish extends Living {
     public Fish(String name, char gender) {
         this.name = name;
         this.gender = gender;
+    }
+
+    public static void getOld(ArrayList<Fish> fL) {
+        for (int i = 0; i < fL.size(); i++) {
+            Fish f = fL.get(i);
+            if (f.getAge() > 0)
+                f.setAge(f.getAge() - 1);
+            else {
+                fL.remove(f);
+                System.out.println("[POISSONS] " + f.getName() + " est mort(e) de vieillesse !");
+            }
+        }
     }
 
     public static void fishesStarve(ArrayList<Fish> fList) {
@@ -37,5 +49,10 @@ public class Fish extends Living {
 
     public char getGender() {
         return gender;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + this.getClass().getSimpleName() + ", " + gender + "] " + name;
     }
 }

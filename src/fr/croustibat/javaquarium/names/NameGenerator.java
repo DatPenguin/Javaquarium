@@ -27,4 +27,9 @@ public class NameGenerator {
         Random r = new Random();
         return names.get(r.nextInt(names.size())) + "_" + adj.get(r.nextInt(adj.size()));
     }
+
+    public String getAlgaName() {
+        Random r = new Random();
+        return names.get(r.nextInt(names.size()));
+    }
 }

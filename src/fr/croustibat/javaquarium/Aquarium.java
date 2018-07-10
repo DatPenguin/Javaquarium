@@ -13,6 +13,14 @@ public class Aquarium {
     private ArrayList<Alga> algaeList = new ArrayList<>();
     private ArrayList<Fish> hungryList = new ArrayList<>();
 
+    public void addFish(Fish f) {
+        fishesList.add(f);
+    }
+
+    public void addAlga(Alga a) {
+        algaeList.add(a);
+    }
+
     private void printStatus() {
         System.out.println("=== Tour " + turnNb + " ===");
         if (algaeList.size() > 0)
@@ -21,9 +29,9 @@ public class Aquarium {
             System.out.println("[ALGUES] Il n'y a aucune algue.");
 
         if (fishesList.size() > 0) {
-            System.out.println("[POISSONS] Liste des poissons :");
+            System.out.println("[POISSONS] Il y a " + fishesList.size() + " poissons :");
             for (Fish f : fishesList)
-                System.out.println("[POISSONS] " + f.getName() + "(" + f.getGender() + ")");
+                System.out.println(f.getName() + " (" + f.getClass().getSimpleName() + ", " + f.getGender() + " " + f.getAge() + ")");
         } else
             System.out.println("[POISSONS] Il n'y a aucun poisson.");
     }
@@ -34,18 +42,26 @@ public class Aquarium {
         for (Fish f : hungryList) { // Pour chaque poisson qui a faim
             if (f instanceof Herbivorous) {                                 // Si le poisson est herbivore
                 Alga victim = algaeList.get(n.nextInt(algaeList.size()));   // On choisit une algue au hasard
-                if (victim.getHp() > 2)                                     // Si elle survit au grignotage
+                System.out.println("[HERBI] " + f.getName() + " a grignoté " + victim.getName());
+                if (victim.getHp() > 2) {                                   // Si elle survit au grignotage
                     victim.setHp(victim.getHp() - 2);                       // Elle perd 2 HP
-                else                                                        // Sinon on la supprime
+                    System.out.println("[ALGUES] " + victim.getName() + " a perdu 2 HP !");
+                } else {                                                      // Sinon on la supprime
                     algaeList.remove(victim);
+                    System.out.println("[ALGUES] " + victim.getName() + " est morte !");
+                }
                 f.setHp(f.getHp() + 3);                                     // Le poisson gagne 3 HP
             } else {                                                        // Sinon il s'agit d'un carnivore
                 Fish victim = fishesList.get(n.nextInt(fishesList.size())); // On choisit un poisson au hasard
                 if (!victim.getClass().equals(f.getClass())) {              // On compare les classes pour savoir si les poissons sont de la même espèce
-                    if (victim.getHp() > 4)                                 // Si la victime survit à l'attaque
+                    System.out.println("[CARNI] " + f.getName() + " a croqué " + victim.getName());
+                    if (victim.getHp() > 4) {                               // Si la victime survit à l'attaque
                         victim.setHp(victim.getHp() - 4);                   // Elle perd 4 HP
-                    else                                                    // Sinon on la supprime
+                        System.out.println("[POISSONS] " + victim.getName() + " a perdu 4 HP !");
+                    } else {                                                  // Sinon on la supprime
                         fishesList.remove(victim);
+                        System.out.println("[POISSONS] " + victim.getName() + " est mort(e) !");
+                    }
                     f.setHp(f.getHp() + 5);                                 // Le prédateur gagne 5 HP
                 }
             }
@@ -54,6 +70,8 @@ public class Aquarium {
 
     public void newTurn() {
         turnNb++;
+        Alga.getOld(algaeList);
+        Fish.getOld(fishesList);
         Alga.algaeGrow(algaeList);
         Fish.fishesStarve(fishesList);
         hungryList = Fish.wannaEat(fishesList);
