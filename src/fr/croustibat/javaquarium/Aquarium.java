@@ -44,7 +44,7 @@ public class Aquarium {
 
         for (int i = 0; i < hungryList.size(); i++) { // Pour chaque poisson qui a faim
             Fish f = hungryList.get(i);
-            if (f instanceof Herbivorous) {                                 // Si le poisson est herbivore
+            if (f instanceof Herbivorous && !algaeList.isEmpty()) {         // Si le poisson est herbivore
                 Alga victim = algaeList.get(n.nextInt(algaeList.size()));   // On choisit une algue au hasard
                 System.out.println("[HERBI] " + f.getName() + " a grignoté " + victim.getName());
                 if (victim.getHp() > 2) {                                   // Si elle survit au grignotage
@@ -80,11 +80,22 @@ public class Aquarium {
             if (f.getHp() <= 5)     // Poisson affamé ne trombine pas
                 continue;
             Fish bae = fishesList.get(n.nextInt(fishesList.size()));    // On choisit un poisson au hasard
-            if (bae.getClass().equals(f.getClass()) && bae.getGender() != f.getGender()) {                  // On compare les classes pour savoir si les poissons sont de la même espèce
-                System.out.println("[ZUMBA] " + f.getName() + " a trombiné " + bae.getName());
-                Fish son = mirrorMirror(bae.getClass().getName());
-                System.out.println(son + " est né !");
-                fishesList.add(son);
+            if (bae.getClass().equals(f.getClass()) && bae != f) {      // On compare les classes pour savoir si les poissons sont de la même espèce
+                if (bae.getGender() != f.getGender()) {
+                    System.out.println("[ZUMBA] " + f.getName() + " a trombiné " + bae.getName());
+                    Fish son = mirrorMirror(bae.getClass().getName());
+                    System.out.println(son + " est né !");
+                    fishesList.add(son);
+                } else if (bae.getGender() == f.getGender() && f.getHerma() == 2) {
+                    if (f.getGender() == 'M')
+                        f.setGender('F');
+                    else
+                        f.setGender('M');
+                    System.out.println("[ZUMBA] " + f.getName() + " a changé de sexe pour trombiner " + bae.getName());
+                    Fish son = mirrorMirror(bae.getClass().getName());
+                    System.out.println(son + " est né !");
+                    fishesList.add(son);
+                }
             }
         }
 
@@ -122,6 +133,18 @@ public class Aquarium {
         return null;
     }
 
+    private void oldThailand() {
+        for (Fish f : fishesList) {
+            if (f.getHerma() == 1 && f.getAge() == 10) {
+                if (f.getGender() == 'M')
+                    f.setGender('F');
+                else
+                    f.setGender('M');
+                System.err.println(f.getName() + " change de sexe !");
+            }
+        }
+    }
+
     public void newTurn() {
         turnNb++;
         Alga.getOld(algaeList);
@@ -132,6 +155,7 @@ public class Aquarium {
         if (!hungryList.isEmpty())
             dinnerTime();
         zumbaTime();
+        oldThailand();
         printStatus();
     }
 

@@ -61,7 +61,7 @@ public class Run {
         for (int i = 0; i < 5; i++)
             a.addAlga(algaGenerator());
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
             a.newTurn();
     }
 

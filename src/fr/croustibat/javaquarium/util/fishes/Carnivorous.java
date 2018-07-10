@@ -7,6 +7,10 @@ public abstract class Carnivorous extends Fish {
         super(name, gender);
     }
 
+    public Carnivorous(String name, char gender, int age) {
+        super(name, gender, age);
+    }
+
     public void eat(Fish f) {
 
     }

@@ -7,6 +7,7 @@ public abstract class Fish extends Living {
     private char gender;
     private int size;
     private int weight;
+    protected final int herma = 0;  // 0 : Mono-sexué, 1 : Hermaphrodite avec l'âge, 2 : Hermaphrodite opportuniste
 
     public Fish(String name, char gender) {
         this.name = name;
@@ -58,8 +59,16 @@ public abstract class Fish extends Living {
         return gender;
     }
 
+    public int getHerma() {
+        return herma;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
-        return "[" + this.getClass().getSimpleName() + ", " + gender + "] " + name;
+        return "[" + this.getClass().getSimpleName() + ", " + gender + ", " + age + "] " + name;
     }
 }
