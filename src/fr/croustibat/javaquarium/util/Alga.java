@@ -9,6 +9,11 @@ public class Alga extends Living {
         this.name = name;
     }
 
+    public Alga(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
     public static void getOld(ArrayList<Alga> aL) {
         for (int i = 0; i < aL.size(); i++) {
             Alga a = aL.get(i);

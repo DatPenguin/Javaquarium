@@ -13,6 +13,12 @@ public abstract class Fish extends Living {
         this.gender = gender;
     }
 
+    public Fish(String name, char gender, int age) {
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+    }
+
     public static void getOld(ArrayList<Fish> fL) {
         for (int i = 0; i < fL.size(); i++) {
             Fish f = fL.get(i);
@@ -26,7 +32,8 @@ public abstract class Fish extends Living {
     }
 
     public static void fishesStarve(ArrayList<Fish> fList) {
-        for (Fish f : fList) {
+        for (int i = 0; i < fList.size(); i++) {
+            Fish f = fList.get(i);
             if (f.getHp() > 1)
                 f.setHp(f.getHp() - 1);
             else

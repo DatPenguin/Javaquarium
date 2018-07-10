@@ -4,7 +4,7 @@ import java.util.Random;
 
 public abstract class Living {
     private int hp = 10;
-    private int age;
+    protected int age;
 
     public Living() {
         Random r = new Random();

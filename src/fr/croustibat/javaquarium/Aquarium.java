@@ -1,9 +1,11 @@
 package fr.croustibat.javaquarium;
 
+import fr.croustibat.javaquarium.names.NameGenerator;
 import fr.croustibat.javaquarium.util.Alga;
 import fr.croustibat.javaquarium.util.Fish;
 import fr.croustibat.javaquarium.util.fishes.Herbivorous;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +14,7 @@ public class Aquarium {
     private ArrayList<Fish> fishesList = new ArrayList<>();
     private ArrayList<Alga> algaeList = new ArrayList<>();
     private ArrayList<Fish> hungryList = new ArrayList<>();
+    NameGenerator nG = new NameGenerator();
 
     public void addFish(Fish f) {
         fishesList.add(f);
@@ -39,7 +42,8 @@ public class Aquarium {
     private void dinnerTime() {
         Random n = new Random();
 
-        for (Fish f : hungryList) { // Pour chaque poisson qui a faim
+        for (int i = 0; i < hungryList.size(); i++) { // Pour chaque poisson qui a faim
+            Fish f = hungryList.get(i);
             if (f instanceof Herbivorous) {                                 // Si le poisson est herbivore
                 Alga victim = algaeList.get(n.nextInt(algaeList.size()));   // On choisit une algue au hasard
                 System.out.println("[HERBI] " + f.getName() + " a grignoté " + victim.getName());
@@ -68,6 +72,56 @@ public class Aquarium {
         }
     }
 
+    private void zumbaTime() {
+        Random n = new Random();
+
+        for (int i = 0; i < fishesList.size(); i++) { // Pour chaque poisson
+            Fish f = fishesList.get(i);
+            if (f.getHp() <= 5)     // Poisson affamé ne trombine pas
+                continue;
+            Fish bae = fishesList.get(n.nextInt(fishesList.size()));    // On choisit un poisson au hasard
+            if (bae.getClass().equals(f.getClass()) && bae.getGender() != f.getGender()) {                  // On compare les classes pour savoir si les poissons sont de la même espèce
+                System.out.println("[ZUMBA] " + f.getName() + " a trombiné " + bae.getName());
+                Fish son = mirrorMirror(bae.getClass().getName());
+                System.out.println(son + " est né !");
+                fishesList.add(son);
+            }
+        }
+
+        for (int i = 0; i < algaeList.size(); i++) {
+            Alga a = algaeList.get(i);
+            if (a.getHp() < 10)
+                continue;
+            a.setHp(a.getHp() / 2);
+            Alga son = new Alga(nG.getAlgaName());
+            son.setHp(a.getHp());
+            algaeList.add(son);
+        }
+    }
+
+    private Fish mirrorMirror(String className) {
+        Random r = new Random();
+        int sex = r.nextInt(2);
+        char gender;
+        switch (sex) {
+            case 0:
+                gender = 'M';
+                break;
+            default:
+                gender = 'F';
+                break;
+        }
+
+        try {
+            Class<?> clazz = Class.forName(className);
+            Constructor<?> constructor = clazz.getConstructor(String.class, char.class, int.class);
+            return (Fish) constructor.newInstance(nG.getName(), gender, 20);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void newTurn() {
         turnNb++;
         Alga.getOld(algaeList);
@@ -77,14 +131,12 @@ public class Aquarium {
         hungryList = Fish.wannaEat(fishesList);
         if (!hungryList.isEmpty())
             dinnerTime();
+        zumbaTime();
         printStatus();
     }
 
     /*
      * Exercices :
-     * 3.1 : fonction addFish / addAlga ajoutant un poisson / une algue avec un nom aléatoire (générateur de noms ?) et un âge aléatoire. Ajouter une variable âge
-     * initialisée entre 0 et 20, et qui décroît à chaque tour. Dès que 0, on supprime.
-     *
      * 3.2 :
      * Poissons : boucle semblable à celle de la nourriture mais prenant en compte le sexe, puis utilisation de addFish avec un âge 0.
      * Algues : Reproduction systématique dès que 10 HP ou plus.
