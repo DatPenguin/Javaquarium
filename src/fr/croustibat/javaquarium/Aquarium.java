@@ -42,7 +42,7 @@ public class Aquarium {
     private void dinnerTime() {
         Random n = new Random();
 
-        for (int i = 0; i < hungryList.size(); i++) { // Pour chaque poisson qui a faim
+        for (int i = 0; i < hungryList.size(); i++) {                       // Pour chaque poisson qui a faim
             Fish f = hungryList.get(i);
             if (f instanceof Herbivorous && !algaeList.isEmpty()) {         // Si le poisson est herbivore
                 Alga victim = algaeList.get(n.nextInt(algaeList.size()));   // On choisit une algue au hasard
@@ -62,7 +62,7 @@ public class Aquarium {
                     if (victim.getHp() > 4) {                               // Si la victime survit à l'attaque
                         victim.setHp(victim.getHp() - 4);                   // Elle perd 4 HP
                         System.out.println("[POISSONS] " + victim.getName() + " a perdu 4 HP !");
-                    } else {                                                  // Sinon on la supprime
+                    } else {                                                // Sinon on la supprime
                         fishesList.remove(victim);
                         System.out.println("[POISSONS] " + victim.getName() + " est mort(e) !");
                     }
@@ -75,15 +75,15 @@ public class Aquarium {
     private void zumbaTime() {
         Random n = new Random();
 
-        for (int i = 0; i < fishesList.size(); i++) { // Pour chaque poisson
+        for (int i = 0; i < fishesList.size(); i++) {                   // Pour chaque poisson
             Fish f = fishesList.get(i);
-            if (f.getHp() <= 5)     // Poisson affamé ne trombine pas
+            if (f.getHp() <= 5)                                         // Poisson affamé ne trombine pas
                 continue;
             Fish bae = fishesList.get(n.nextInt(fishesList.size()));    // On choisit un poisson au hasard
             if (bae.getClass().equals(f.getClass()) && bae != f) {      // On compare les classes pour savoir si les poissons sont de la même espèce
                 if (bae.getGender() != f.getGender()) {
                     System.out.println("[ZUMBA] " + f.getName() + " a trombiné " + bae.getName());
-                    Fish son = mirrorMirror(bae.getClass().getName());
+                    Fish son = mirrorMirror(bae.getClass());
                     System.out.println(son + " est né !");
                     fishesList.add(son);
                 } else if (bae.getGender() == f.getGender() && f.getHerma() == 2) {
@@ -92,7 +92,7 @@ public class Aquarium {
                     else
                         f.setGender('M');
                     System.out.println("[ZUMBA] " + f.getName() + " a changé de sexe pour trombiner " + bae.getName());
-                    Fish son = mirrorMirror(bae.getClass().getName());
+                    Fish son = mirrorMirror(bae.getClass());
                     System.out.println(son + " est né !");
                     fishesList.add(son);
                 }
@@ -110,7 +110,7 @@ public class Aquarium {
         }
     }
 
-    private Fish mirrorMirror(String className) {
+    private Fish mirrorMirror(Class<?> clazz) {
         Random r = new Random();
         int sex = r.nextInt(2);
         char gender;
@@ -124,7 +124,6 @@ public class Aquarium {
         }
 
         try {
-            Class<?> clazz = Class.forName(className);
             Constructor<?> constructor = clazz.getConstructor(String.class, char.class, int.class);
             return (Fish) constructor.newInstance(nG.getName(), gender, 20);
         } catch (Exception e) {
@@ -158,11 +157,4 @@ public class Aquarium {
         oldThailand();
         printStatus();
     }
-
-    /*
-     * Exercices :
-     * 3.2 :
-     * Poissons : boucle semblable à celle de la nourriture mais prenant en compte le sexe, puis utilisation de addFish avec un âge 0.
-     * Algues : Reproduction systématique dès que 10 HP ou plus.
-     */
 }
