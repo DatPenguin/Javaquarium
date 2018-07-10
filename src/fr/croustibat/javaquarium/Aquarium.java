@@ -11,10 +11,10 @@ import java.util.Random;
 
 public class Aquarium {
     private int turnNb = 0;
-    private ArrayList<Fish> fishesList = new ArrayList<>();
-    private ArrayList<Alga> algaeList = new ArrayList<>();
+    private final ArrayList<Fish> fishesList = new ArrayList<>();
+    private final ArrayList<Alga> algaeList = new ArrayList<>();
     private ArrayList<Fish> hungryList = new ArrayList<>();
-    NameGenerator nG = new NameGenerator();
+    private final NameGenerator nG = new NameGenerator();
 
     public void addFish(Fish f) {
         fishesList.add(f);
@@ -140,7 +140,7 @@ public class Aquarium {
                     f.setGender('F');
                 else
                     f.setGender('M');
-                System.err.println(f.getName() + " change de sexe !");
+                System.out.println(f.getName() + " change de sexe !");
             }
         }
     }

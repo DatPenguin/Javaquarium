@@ -3,15 +3,10 @@ package fr.croustibat.javaquarium.util;
 import java.util.ArrayList;
 
 public class Alga extends Living {
-    private String name;
+    private final String name;
 
     public Alga(String name) {
         this.name = name;
-    }
-
-    public Alga(String name, int age) {
-        this.name = name;
-        this.age = age;
     }
 
     public static void getOld(ArrayList<Alga> aL) {

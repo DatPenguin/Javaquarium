@@ -7,8 +7,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class NameGenerator {
-    ArrayList<String> names = new ArrayList<>();
-    ArrayList<String> adj = new ArrayList<>();
+    private final ArrayList<String> names = new ArrayList<>();
+    private final ArrayList<String> adj = new ArrayList<>();
 
     public NameGenerator() {
         try {

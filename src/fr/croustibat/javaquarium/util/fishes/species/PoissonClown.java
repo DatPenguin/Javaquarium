@@ -3,7 +3,6 @@ package fr.croustibat.javaquarium.util.fishes.species;
 import fr.croustibat.javaquarium.util.fishes.Carnivorous;
 
 public class PoissonClown extends Carnivorous {
-    protected final int herma = 2;
     public PoissonClown(String name, char gender) {
         super(name, gender);
     }
@@ -14,6 +13,6 @@ public class PoissonClown extends Carnivorous {
 
     @Override
     public int getHerma() {
-        return this.herma;
+        return 2;
     }
 }

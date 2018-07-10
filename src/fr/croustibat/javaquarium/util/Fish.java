@@ -3,18 +3,15 @@ package fr.croustibat.javaquarium.util;
 import java.util.ArrayList;
 
 public abstract class Fish extends Living {
-    private String name;
+    private final String name;
     private char gender;
-    private int size;
-    private int weight;
-    protected final int herma = 0;  // 0 : Mono-sexué, 1 : Hermaphrodite avec l'âge, 2 : Hermaphrodite opportuniste
 
-    public Fish(String name, char gender) {
+    protected Fish(String name, char gender) {
         this.name = name;
         this.gender = gender;
     }
 
-    public Fish(String name, char gender, int age) {
+    protected Fish(String name, char gender, int age) {
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -60,7 +57,8 @@ public abstract class Fish extends Living {
     }
 
     public int getHerma() {
-        return herma;
+        // 0 : Mono-sexué, 1 : Hermaphrodite avec l'âge, 2 : Hermaphrodite opportuniste
+        return 0;
     }
 
     public void setGender(char gender) {
